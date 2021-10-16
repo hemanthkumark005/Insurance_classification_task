@@ -97,11 +97,8 @@ def train_and_evaluate(args):
 
 
 if __name__ == '__main__':
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = \
-        r'E:\UDEMY\GCP\Service_account\gcp-ml-demo1-e29cfb0662dd.json'
-    '''
-    print(tf.__version__)
-    print(tf.keras.__version__)
+    #Required if we are testing the model from local laptop, if we are running from notebook instance of the GCP it is not required. 
+    #os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'E:\UDEMY\GCP\Service_account\gcp-ml-demo1-e29cfb0662dd.json'
     '''
     args = get_args()
     tf.compat.v1.logging.set_verbosity(args.verbosity)
