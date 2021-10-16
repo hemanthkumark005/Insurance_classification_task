@@ -9,6 +9,8 @@ import tempfile
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+from google.cloud import storage
+
 
 #Names of all the columns including the target
 COLUMNS_Name = ['id','Gender','Age','Driving_License','Region_Code','Previously_Insured','Vehicle_Age','Vehicle_Damage','Annual_Premium','Policy_Sales_Channel','Vintage','Response']
@@ -65,14 +67,22 @@ def load_data():
 
     #Authentication before accessing the data stored on the cloud storage
     #Change the path of the json (service account) as per needs
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = \
-        r'E:\UDEMY\GCP\Service_account\gcp-ml-demo1-e29cfb0662dd.json'
+    #os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'E:\UDEMY\GCP\Service_account\gcp-ml-demo1-e29cfb0662dd.json'
 
     #Bucket name -> aiplatform_demo
+    storage_client = storage.Client()
+    public_bucket = storage_client.bucket('aiplat_test_1111')
+    blob = public_bucket.blob('Insurance_Train_data.csv')
+    blob.download_to_filename('Insurance_Train_data.csv')
+    train_df=pd.read_csv('./Insurance_Train_data.csv',sep=',')
+    blob = public_bucket.blob('Insurance_Test_data.csv')
+    blob.download_to_filename('Insurance_Test_data.csv')
+    test_df=pd.read_csv('./Insurance_Test_data.csv',sep=',',)
+    '''
     train_df = pd.read_csv(r'gs://aiplatform_demo/Jobs/data/Insurance_Train_data.csv')
 
     test_df = pd.read_csv(r'gs://aiplatform_demo/Jobs/data/Insurance_Test_data.csv')
-
+    '''
     train_df = preprocess(train_df)
     test_df = preprocess(test_df)
 
@@ -94,4 +104,3 @@ def load_data():
 
     return train_x, train_y, test_x, test_y
 
-load_data()
