@@ -71,7 +71,7 @@ def load_data():
 
     #Bucket name -> aiplatform_demo
     storage_client = storage.Client()
-    public_bucket = storage_client.bucket('aiplat_test_1111')
+    public_bucket = storage_client.bucket('aiplatform_demo')
     blob = public_bucket.blob('Insurance_Train_data.csv')
     blob.download_to_filename('Insurance_Train_data.csv')
     train_df=pd.read_csv('./Insurance_Train_data.csv',sep=',')
