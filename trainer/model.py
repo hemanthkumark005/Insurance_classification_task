@@ -10,21 +10,6 @@ from tensorflow.python.saved_model import signature_constants
 from tensorflow.python.saved_model import tag_constants
 from tensorflow.python.saved_model.signature_def_utils_impl import predict_signature_def
 
-def to_savedmodel(model, export_path):
-
-    builder = saved_model_builder.SavedModelBuilder(export_path)
-
-    signature = predict_signature_def(
-        inputs={'input': model.inputs[0]}, outputs={'Response': model.outputs[0]})
-
-    with K.get_session() as sess:
-        builder.add_meta_graph_and_variables(
-            sess=sess,
-            tags=[tag_constants.SERVING],
-            signature_def_map={
-                signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY: signature
-            })
-        builder.save()
 
 def input_fn(features, labels, shuffle, num_epochs, batch_size):
     #Input function to generate data which will be used for model training.
